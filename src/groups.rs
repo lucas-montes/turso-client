@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::client::{
-    GroupsPlatform, TursoClient, TursoError, GROUPS, ORGANIZATIONS,
-};
+use super::client::{GroupsPlatform, TursoClient, TursoError, GROUPS, ORGANIZATIONS};
 
 #[derive(Debug, Deserialize, Default)]
 pub struct Group {
@@ -58,10 +56,8 @@ impl TursoClient<GroupsPlatform> {
         &self,
         organization_name: &str,
         name: &str,
-        location: &str,
-        group_name: &str,
     ) -> Result<Group, TursoError> {
-        let url = format!("{ORGANIZATIONS}/{organization_name}/{GROUPS}/{group_name}/transfer");
+        let url = format!("{ORGANIZATIONS}/{organization_name}/{GROUPS}/{name}/transfer");
         self.post(&url, &TransferGroup::new(organization_name))
             .await
     }

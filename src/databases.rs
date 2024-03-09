@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 use super::client::{
-    Authorization, DatabaseInstancesPlatform, DatabasesPlatform, TursoClient, TursoError,
-    CREATE_TOKEN, DATABASES, DATABASE_INSTANCES, ORGANIZATIONS,
+    DatabaseInstancesPlatform, DatabasesPlatform, TursoClient, TursoError, CREATE_TOKEN,
+    DATABASES, DATABASE_INSTANCES, ORGANIZATIONS,
 };
 
 // After creating a new database the response give us some informations, thats why we use a default to
@@ -71,13 +71,16 @@ impl<'a> CreateDatabaseToken<'a> {
 
 #[derive(Debug, Deserialize, Default)]
 pub struct CreatedDatabaseToken {
-    jwt: String,
+    pub jwt: String,
 }
 
 /// Database Platform
 impl TursoClient<DatabasesPlatform> {
     /// Method to list databases
-    pub async fn list(&self, organization_name: &str) -> Result<ListDatabases, TursoError> {
+    pub async fn list(
+        &self,
+        organization_name: &str,
+    ) -> Result<ListDatabases, TursoError> {
         let url = format!("{ORGANIZATIONS}/{organization_name}/{DATABASES}");
         self.get(&url).await
     }
@@ -88,7 +91,8 @@ impl TursoClient<DatabasesPlatform> {
         organization_name: &str,
         database_name: &str,
     ) -> Result<RetrievedDatabase, TursoError> {
-        let url = format!("{ORGANIZATIONS}/{organization_name}/{DATABASES}/{database_name}");
+        let url =
+            format!("{ORGANIZATIONS}/{organization_name}/{DATABASES}/{database_name}");
         self.get(&url).await
     }
 
@@ -109,7 +113,8 @@ impl TursoClient<DatabasesPlatform> {
         organization_name: &str,
         database_name: &str,
     ) -> Result<String, TursoError> {
-        let url = format!("{ORGANIZATIONS}/{organization_name}/{DATABASES}/{database_name}");
+        let url =
+            format!("{ORGANIZATIONS}/{organization_name}/{DATABASES}/{database_name}");
         self.delete_(&url).await
     }
 

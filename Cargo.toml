@@ -2,15 +2,33 @@
 name = "turso"
 version = "0.1.0"
 edition = "2021"
+description = "Turso platform API"
+license = "MIT"
+repository = "https://github.com/lucas-montes/turso-client"
+authors = ["Lucas Montes <lluc23@hotmail.com>"]
+categories = ["turso", "databases"]
+documentation = "https://docs.rs/turso/"
+keywords = ["turso", "edge-database"]
+readme = "README.md"
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
 
 [dependencies]
 # Logging
-tracing.workspace = true
-tracing-subscriber.workspace = true
-tracing-appender.workspace = true
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing-appender = "0.2"
+serde = { version = "1.0.196", features = ["derive"] }
+serde_json = "1.0.114"
+menva = "1.0.0"
 reqwest = { version = "0.11", features = ["json"] }
-menva.workspace = true
-serde.workspace = true
-serde_json.workspace = true
 strum_macros = "0.26.1"
 strum = "0.26.1"

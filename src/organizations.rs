@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 use super::client::{
-    MembersPlatform, OrganizationsPlatform, TursoClient, TursoError, MEMBERS, ORGANIZATIONS,
+    MembersPlatform, OrganizationsPlatform, TursoClient, TursoError, MEMBERS,
+    ORGANIZATIONS,
 };
 
 /// https://docs.turso.tech/api-reference/organizations/list

@@ -5,6 +5,7 @@ mod locations;
 mod organizations;
 
 pub use client::{
-    DatabasesPlatform, GroupsPlatform, LocationsPlatform, OrganizationsPlatform, TursoClient,
+    DatabasesPlatform, GroupsPlatform, LocationsPlatform, OrganizationsPlatform,
+    TursoClient,
 };
 pub use databases::RetrievedDatabase;

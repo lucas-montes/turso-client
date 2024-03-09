@@ -13,7 +13,6 @@ pub const MEMBERS: &str = "members";
 pub const GROUPS: &str = "groups";
 pub const LOCATIONS: &str = "locations";
 pub const CREATE_TOKEN: &str = "auth/tokens";
-pub const INVALIDATE_TOKEN: &str = "auth/rotate";
 
 pub struct BasePlatform;
 pub struct OrganizationsPlatform;
@@ -21,7 +20,6 @@ pub struct LocationsPlatform;
 pub struct MembersPlatform;
 pub struct DatabasesPlatform;
 pub struct DatabaseInstancesPlatform;
-pub struct DatabaseTokensPlatform;
 pub struct GroupsPlatform;
 
 #[derive(Display, EnumString, IntoStaticStr)]
@@ -29,7 +27,7 @@ pub enum Authorization {
     #[strum(serialize = "full-access")]
     FullAccess,
     #[strum(serialize = "read-only")]
-    ReadOnly
+    ReadOnly,
 }
 
 pub struct TursoClient<Platform = BasePlatform> {
@@ -48,17 +46,15 @@ impl TursoClient {
     }
 }
 
+impl Default for TursoClient {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[derive(Debug, Deserialize, Serialize, Default)]
 pub struct TursoError {
     pub error: String,
-}
-
-impl TursoError {
-    fn new(msg: &str) -> TursoError {
-        TursoError {
-            error: msg.to_string(),
-        }
-    }
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -115,7 +111,10 @@ impl<Platform> TursoClient<Platform> {
         }
     }
 
-    pub async fn get<T: for<'a> Deserialize<'a>>(&self, url: &str) -> Result<T, TursoError> {
+    pub async fn get<T: for<'a> Deserialize<'a>>(
+        &self,
+        url: &str,
+    ) -> Result<T, TursoError> {
         let url = if url.starts_with("https") {
             url.to_string()
         } else {
@@ -149,7 +148,10 @@ impl<Platform> TursoClient<Platform> {
         self.serialize(response).await
     }
 
-    pub async fn delete_<T: for<'a> Deserialize<'a>>(&self, url: &str) -> Result<T, TursoError> {
+    pub async fn delete_<T: for<'a> Deserialize<'a>>(
+        &self,
+        url: &str,
+    ) -> Result<T, TursoError> {
         let response = self
             .client
             .delete(format!("{BASE_PATH}{url}"))
@@ -166,7 +168,8 @@ impl<Platform> TursoClient<Platform> {
         response: Response,
     ) -> Result<T, TursoError> {
         //TODO: handle errors
-        let result: TursoResult<T> = serde_json::from_str(&response.text().await.unwrap()).unwrap();
+        let result: TursoResult<T> =
+            serde_json::from_str(&response.text().await.unwrap()).unwrap();
         match result {
             TursoResult::Ok(v) => Ok(v),
             TursoResult::Err(err) => Err(err),
