@@ -21,6 +21,9 @@ codegen-units = 1
 panic = "abort"
 strip = "symbols"
 
+[features]
+utils = ["dep:libsql"]
+
 [dependencies]
 # Logging
 tracing = "0.1"
@@ -32,3 +35,7 @@ menva = "1.0.0"
 reqwest = { version = "0.11", features = ["json"] }
 strum_macros = "0.26.1"
 strum = "0.26.1"
+
+# For turso_utils
+libsql = { version = "0.2.0", optional = true }
+
