@@ -14,25 +14,14 @@ readme = "README.md"
 [badges]
 maintenance = { status = "actively-developed" }
 
-[profile.release]
-opt-level = "z"
-lto = true
-codegen-units = 1
-panic = "abort"
-strip = "symbols"
-
 [dependencies]
-# Logging
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
-tracing-appender = "0.2"
-serde = { version = "1.0.196", features = ["derive"] }
-serde_json = "1.0.114"
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-appender.workspace = true
+serde.workspace = true
+serde_json.workspace = true
 menva = "1.0.0"
 reqwest = { version = "0.11", features = ["json"] }
 strum_macros = "0.26.1"
 strum = "0.26.1"
-
-# For turso_utils
-tokio = { version = "1.36.0", features = ["full"] }
 

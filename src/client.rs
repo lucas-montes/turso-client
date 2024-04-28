@@ -38,17 +38,17 @@ pub struct TursoClient<Platform = BasePlatform> {
 
 impl TursoClient {
     pub fn new() -> Self {
-        Self {
-            token: get_env("TOKEN"),
-            client: ClientBuilder::new().build().unwrap(),
-            platform: PhantomData,
-        }
+        Self::default()
     }
 }
 
 impl Default for TursoClient {
     fn default() -> Self {
-        Self::new()
+        Self {
+            token: get_env("TURSO_TOKEN"),
+            client: ClientBuilder::new().build().unwrap(),
+            platform: PhantomData,
+        }
     }
 }
 
